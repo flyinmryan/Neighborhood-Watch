@@ -22,30 +22,28 @@ issues.config(function($routeProvider){
     })
     .when('/home',{
     	templateUrl: 'partials/home.html'
-    })
+    });
 });
 
 issues.controller('UserController', function ($scope,UserFactory,$location){
 
     $scope.login = function(){
-    	//console.log($scope.logged_user);
     	UserFactory.login($scope.logged_user, function(){
     		$location.path('/home');
-    	})
-    }
+    	});
+    };
 
     $scope.register = function(){
-    	//console.log($scope.new_user);
     	if($scope.new_user.password === $scope.new_user.confirmPassword){
     		UserFactory.register($scope.new_user,function(){
     			$location.path('/home');
-    		})
+    		});
 
     	}else{
     		console.log("Passwords doesn't match");
     	}
-    }
-})
+    };
+});
 
 issues.factory('UserFactory',function($http){
     var factory = {};
@@ -62,7 +60,7 @@ issues.factory('UserFactory',function($http){
     };
 
     return factory;
-})
+});
 </script>
 ​<body>​
 

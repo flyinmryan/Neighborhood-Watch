@@ -34,6 +34,27 @@
     #footer {
     	text-align: center;
     }
+    #hidden {
+      display: none;
+      height: 500px;
+      width: 600px;
+      border-radius: 2px solid black;
+      background-color: rgba(0,0,0,.5);
+      position: absolute;
+        left: 25%;
+        right: 25%;
+        top: 20%;
+      color: white;
+    }
+    #addIssue {
+      text-decoration: underline;
+      color: green;
+      cursor: hand;
+    }
+    #addIssue:hover {
+      color: orange;
+      cursor: pointer;
+    }
   </style>
 
 <div ng-controller ="userController" id="wrapper">
@@ -42,19 +63,27 @@
 	</div>
 	<div id="title">
 		<h1>Neighborhood Watch</h1>
+    <p id="addIssue">Click here to add an issue</p>
 	</div>
 	<div id="map">
     <script>
+    $(document).ready(function(){
       function initialize() {
         var mapCanvas = document.getElementById('map');
         var mapOptions = {
-          center: new google.maps.LatLng(44.5403, -78.5463),
+          center: new google.maps.LatLng(37.3382, -121.8863),
           zoom: 8,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         var map = new google.maps.Map(mapCanvas, mapOptions);
       }
       google.maps.event.addDomListener(window, 'load', initialize);
+
+      $("#addIssue").on("click", function(){
+        $("#hidden").toggle();
+      });
+
+    });  
     </script>
 	</div>
 	<div id="complaints">
@@ -76,3 +105,9 @@
 	<div id="footer">
 		<a href="#">Contact</a> | <a href="#">About Us</a> | <a href="#">Logout</a>
 	</div>
+  <div id="hidden">
+    <h2>Report a new issue</h2>
+    Title:<input type="text" ng-model="new_issue.title" /><br>
+    Details:<input type="text" ng-model="new_issue.description" /><br>
+    <input type="submit" ng-click="addIssue()">
+  </div>
