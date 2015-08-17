@@ -1,7 +1,78 @@
-<div ng-controller ="userController">
-    <h2>Hello !</h2>
-    <h3>Please enter your name to enter and share your ideas</h3>
-    <input type="text" ng-model ="new_user.name" >
-    <!-- <input ng-click="addUser()" type="submit" class="btn btn-primary" value="Add">​ -->
-    <button ng-click="addUser()"><a href="#/dashboard">Show Dashboard </a></button>
-</div>
+<style>
+    #wrapper {
+    	margin: 0px auto;
+    	text-align: center;
+    }
+    #map {
+      width: 500px;
+      height: 400px;
+      display: inline-block;
+    }
+    #sidebar {
+    	display: inline-block;
+    	width: 220px;
+    	background-color: gray;
+    	vertical-align: top;
+    }
+    #chat {
+			height: 200px;
+			width: 200px;
+			background-color: green;
+			display: block;
+			padding: 5px;
+    }
+    #highPriority {
+    	height: 200px;
+			width: 200px;
+			background-color: yellow;
+			display: block;
+			padding: 5px; 
+    }
+    #complaints {
+    	display: inline-block;
+    }
+    #footer {
+    	text-align: center;
+    }
+  </style>
+  <script src="https://maps.googleapis.com/maps/api/js"></script>
+<div ng-controller ="userController" id="wrapper">
+	<div id="header">
+		<a href="#">Logout</a>
+	</div>
+	<div id="title">
+		<h1>Neighborhood Watch</h1>
+	</div>
+	<div id="map">
+    <script>
+      function initialize() {
+        var mapCanvas = document.getElementById('map');
+        var mapOptions = {
+          center: new google.maps.LatLng(44.5403, -78.5463),
+          zoom: 8,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(mapCanvas, mapOptions);
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+	</div>
+	<div id="complaints">
+		<h2>Latest Complaints</h2>
+		<ul>
+			<li>Complaint</li>
+			<li>Complaint</li>
+			<li>Complaint</li>
+		</ul>
+	</div>
+	<div id="sidebar">
+		<div id="highPriority">
+			High Priority Complaints
+		</div>
+		<div id="chat">
+			Chat Box
+		</div>
+	</div>
+	<div id="footer">
+		<a href="#">Contact</a> | <a href="#">About Us</a> | <a href="#">Logout</a>
+	</div>
