@@ -15,6 +15,6 @@ require('./config/mongoose.js');
 require('./config/routes.js')(app);
 
 
-app.listen(8888, function() {
-  console.log('cool stuff on: 8888');
+app.listen(8008, function() {
+  console.log('cool stuff on: 8008');
 });

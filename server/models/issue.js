@@ -5,16 +5,18 @@ var Schema = mongoose.Schema;
 var IssueSchema = new mongoose.Schema({
   title: String,
   description : String,
-  _customer :  {type: Schema.ObjectId, ref: 'User'},
+  street : String,
+  _user :  {type: Schema.ObjectId, ref: 'User'},
   comments : [{
   			comment : String,
   			name : String,
   			created : {type: Date, default: Date.now }
   }],
   created: {type: Date, default: Date.now },
-  issue_status : {type: Boolean, default: false }
+  issue_status : {type: Boolean, default: false },
+  priority : String
 });
 
-mongoose.model('Complaint', IssueSchema);
+mongoose.model('Issue', IssueSchema);
 
 
