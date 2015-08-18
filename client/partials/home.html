@@ -38,13 +38,17 @@
       display: none;
       height: 500px;
       width: 600px;
-      border-radius: 2px solid black;
+      border: 3px solid black;
+      border-radius: 10px;
       background-color: rgba(0,0,0,.5);
       position: absolute;
         left: 25%;
         right: 25%;
         top: 20%;
       color: white;
+    }
+    #hidden input {
+      background-color: black;
     }
     #addIssue {
       text-decoration: underline;
@@ -68,7 +72,7 @@
 	<div id="map">
     <script>
     $(document).ready(function(){
-      var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      var labels = '1ABCDEFGHIJKLMNOPQRSTUVWXYZ';
       var labelIndex = 0;
       function initialize() {
         var mapCanvas = document.getElementById('map');
@@ -81,10 +85,13 @@
         var sj = {lat: 37.3517, lng: -121.9036};
         addMarker(sj, map);
         google.maps.event.addListener(map, 'click', function(event) {
+          console.log(event.latLng);
           addMarker(event.latLng, map);
         });
+        console.log(issues);
         for (var issue in issues){
-          addMarker(latLngObj, map);
+          //addMarker(latLngObj, map);
+          console.log(issue);
         }
       }
        // Adds a marker to the map.
