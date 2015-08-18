@@ -46,9 +46,6 @@
         top: 20%;
       color: white;
     }
-    #hidden input{
-      background-color: black;
-    }
     #addIssue {
       text-decoration: underline;
       color: green;
@@ -60,13 +57,9 @@
     }
 
   </style>
-
-<div ng-controller ="UserController" id="wrapper">
-
+<div ng-controller ="userController" id="wrapper">
 	<div id="header">
 		<a href="#">Logout</a>
-    
-
 	</div>
 	<div id="title">
 		<h1>Neighborhood Watch</h1>
@@ -75,45 +68,38 @@
 	<div id="map">
     <script>
     $(document).ready(function(){
+      var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      var labelIndex = 0;
       function initialize() {
         var mapCanvas = document.getElementById('map');
         var mapOptions = {
           center: new google.maps.LatLng(37.3517, -121.9036),
           zoom: 12,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
+          mapTypeId: google.maps.MapTypeId.HYBRID
         };
         var map = new google.maps.Map(mapCanvas, mapOptions);
-        marker = new google.maps.Marker({
-          map: map,
-          draggable: true,
-          animation: google.maps.Animation.DROP,
-          position: {lat: 37.3382, lng: -121.8863}
+        var sj = {lat: 37.3517, lng: -121.9036};
+        addMarker(sj, map);
+        google.maps.event.addListener(map, 'click', function(event) {
+          addMarker(event.latLng, map);
         });
-        marker2 = new google.maps.Marker({
-          map: map,
-          draggable: true,
-          animation: google.maps.Animation.DROP,
-          position: {lat: 37.3517, lng: -121.9036}
-        });
-        marker.addListener('click', toggleBounce);
+        for (var issue in issues){
+          addMarker(latLngObj, map);
+        }
       }
-      google.maps.event.addDomListener(window, 'load', initialize);
-
-      function geocodeAddress(geocoder, resultsMap) {
-        var address = document.getElementById('address').value;
-        geocoder.geocode({'address': address}, function(results, status) {
-          if (status === google.maps.GeocoderStatus.OK) {
-            resultsMap.setCenter(results[0].geometry.location);
-            var marker = new google.maps.Marker({
-              map: resultsMap,
-              position: results[0].geometry.location
-            });
-          } else {
-            alert('Geocode was not successful for the following reason: ' + status);
-          }
+       // Adds a marker to the map.
+      function addMarker(location, map) {
+        var marker = new google.maps.Marker({
+          position: location,
+          label: labels[labelIndex++ % labels.length],
+          map: map
         });
       }
-
+      var sj = {lat: 37.3517, lng: -121.9036};
+      addMarker(sj, map);
+      google.maps.event.addListener(map, 'click', function(event) {
+        addMarker(event.latLng, map);
+      });
       function toggleBounce() {
         if (marker.getAnimation() !== null) {
           marker.setAnimation(null);
@@ -121,6 +107,23 @@
           marker.setAnimation(google.maps.Animation.BOUNCE);
         }
       }
+      //Initialize map on window load
+      google.maps.event.addDomListener(window, 'load', initialize);
+
+      // function geocodeAddress(geocoder, resultsMap) {
+      //   var address = "915 N 2nd St, San Jose, CA";
+      //   geocoder.geocode({'address': address}, function(results, status) {
+      //     if (status === google.maps.GeocoderStatus.OK) {
+      //       resultsMap.setCenter(results[0].geometry.location);
+      //       var marker = new google.maps.Marker({
+      //         map: resultsMap,
+      //         position: results[0].geometry.location
+      //       });
+      //     } else {
+      //       alert('Geocode was not successful for the following reason: ' + status);
+      //     }
+      //   });
+      // }
 
       $("#addIssue").on("click", function(){
         $("#hidden").fadeToggle();
@@ -153,17 +156,8 @@
 		<a href="#">Contact</a> | <a href="#">About Us</a> | <a href="#">Logout</a>
 	</div>
   <div id="hidden">
-
     <h2>Report a new issue</h2>
-    <form>
     Title:<input type="text" ng-model="new_issue.title" /><br>
     Details:<input type="text" ng-model="new_issue.description" /><br>
-    Street Address:<input type="text" ng-model="new_issue.street" /><br>
-    <select ng-model="new_issue.priority">
-      <option>High</option>
-      <option>Medium</option>
-      <option>Low</option>
-    </select>
-    <input type="submit" ng-click="addIssue(current_user._id)">
-  </form>
+    <input type="submit" ng-click="addIssue()">
   </div>
