@@ -44,6 +44,7 @@ module.exports = {
 							console.log('error');
 						} else {
 							console.log('successfully added a user');
+							//console.log(result);
 							res.json(result);
 						}
 					})
@@ -57,7 +58,7 @@ module.exports = {
 			if(err){
 				console.log("error finding issues");
 			}else{
-				//console.log("found issues",data);
+				console.log("found issues",data);
 				res.json(data);
 			}
 		})

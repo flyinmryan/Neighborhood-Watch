@@ -33,17 +33,7 @@ UserFactory.getUser(function(data){
 })
 
 UserFactory.getIssues(function(data){
-    // var status;
-    // for(var i=0;i<data.length;i++)
-    //     if(data[i].issue_status == false){
-    //         status  = 'open';
-    //     }else{
-    //         status = "closed";
-    //     }
-    // }
      $scope.issues = data;
-    // $scope.issues.new_status = status;
-    //console.log($scope.issues);
 })
     $scope.login = function(){
     	UserFactory.login($scope.logged_user, function(output){
@@ -51,6 +41,7 @@ UserFactory.getIssues(function(data){
     	});
     };
     $scope.addIssue = function(id){
+        //console.log(id);
     	$scope.new_issue.id = id;
     	//console.log($scope.new_issue);
     	UserFactory.addIssue($scope.new_issue,function(){
@@ -103,7 +94,9 @@ issues.factory('UserFactory',function($http){
     factory.register = function(info,callback){
     	//console.log(info);
         $http.post('/register',info).success(function(output){
+            //console.log(output);
         	current_user.push(output);
+            //console.log(current_user);
             callback(output);
         });        
     };

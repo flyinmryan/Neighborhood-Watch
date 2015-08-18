@@ -61,7 +61,7 @@
     }
 
   </style>
-<div ng-controller ="userController" id="wrapper">
+<div ng-controller ="UserController" id="wrapper">
 	<div id="header">
 		<a href="#">Logout</a>
 	</div>
@@ -139,8 +139,10 @@
     });  
     </script>
 	</div>
+
 	<div id="complaints" ng-repeat="issue in issues">
     <h3>Issue : <span ng-bind="issue.title"></span></h3>
+    <p>Mail : <span ng-bind="issue._user.mail"><span></p>
     <p>Details : <span ng-bind="issue.description"></span></p>
     <p>Complaint logged at : <span ng-bind="issue.created"></span></p>
     <p>Priority : <span ng-bind="issue.priority"></span></p>
@@ -166,5 +168,6 @@
     <h2>Report a new issue</h2>
     Title:<input type="text" ng-model="new_issue.title" /><br>
     Details:<input type="text" ng-model="new_issue.description" /><br>
-    <input type="submit" ng-click="addIssue()">
+    Street Address : <input type="text" ng-model="new_issue.street"><br>
+    <input type="submit" ng-click="addIssue(current_user._id)">
   </div>
