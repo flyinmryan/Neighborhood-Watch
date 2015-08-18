@@ -46,6 +46,9 @@
         top: 20%;
       color: white;
     }
+    #hidden input{
+      background-color: black;
+    }
     #addIssue {
       text-decoration: underline;
       color: green;
@@ -57,9 +60,12 @@
     }
   </style>
 
-<div ng-controller ="userController" id="wrapper">
+<div ng-controller ="UserController" id="wrapper">
+
 	<div id="header">
 		<a href="#">Logout</a>
+    
+
 	</div>
 	<div id="title">
 		<h1>Neighborhood Watch</h1>
@@ -106,8 +112,17 @@
 		<a href="#">Contact</a> | <a href="#">About Us</a> | <a href="#">Logout</a>
 	</div>
   <div id="hidden">
+
     <h2>Report a new issue</h2>
+    <form>
     Title:<input type="text" ng-model="new_issue.title" /><br>
     Details:<input type="text" ng-model="new_issue.description" /><br>
-    <input type="submit" ng-click="addIssue()">
+    Street Address:<input type="text" ng-model="new_issue.street" /><br>
+    <select ng-model="new_issue.priority">
+      <option>High</option>
+      <option>Medium</option>
+      <option>Low</option>
+    </select>
+    <input type="submit" ng-click="addIssue(current_user._id)">
+  </form>
   </div>

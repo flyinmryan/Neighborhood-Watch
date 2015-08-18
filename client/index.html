@@ -27,18 +27,31 @@ issues.config(function($routeProvider){
 
 issues.controller('UserController', function ($scope,UserFactory,$location){
 
+UserFactory.getUser(function(data){
+	$scope.current_user = data[0];
+	//console.log(data);
+})
     $scope.login = function(){
-    	UserFactory.login($scope.logged_user, function(){
+    	UserFactory.login($scope.logged_user, function(output){
     		$location.path('/home');
     	});
     };
+    $scope.addIssue = function(id){
+    	$scope.new_issue.id = id;
+    	console.log($scope.new_issue);
+    	UserFactory.addIssue($scope.new_issue,function(){
+
+
+    	})
+    }
 
     $scope.register = function(){
     	if($scope.new_user.password === $scope.new_user.confirmPassword){
     		UserFactory.register($scope.new_user,function(){
+    			$scope.current_user = output;
+        		//console.log($scope.current_user);
     			$location.path('/home');
     		});
-
     	}else{
     		console.log("Passwords doesn't match");
     	}
@@ -47,14 +60,31 @@ issues.controller('UserController', function ($scope,UserFactory,$location){
 
 issues.factory('UserFactory',function($http){
     var factory = {};
+    var current_user=[];
+
+    factory.getUser = function(callback){
+    	callback(current_user);
+    }
     factory.login = function(info,callback){
         $http.post('/login',info).success(function(output){
+        	//console.log(output);
+        	current_user.push(output);
             callback(output);
         });        
-    };
+    }
+
+    factory.addIssue = function(data,callback){
+    	//console.log("factory",data);
+    	$http.post('/addIssue',data).success(function(output){
+    		callback(output);
+    	})
+    }
+
+
     factory.register = function(info,callback){
     	//console.log(info);
         $http.post('/register',info).success(function(output){
+        	current_user.push(output);
             callback(output);
         });        
     };

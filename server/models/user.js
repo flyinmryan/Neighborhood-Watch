@@ -8,7 +8,7 @@ var UserSchema = new mongoose.Schema({
   region : String,
   status : {type: Boolean, default: false },
   created: {type: Date, default: Date.now },
-   orders : [{type: Schema.Types.ObjectId, ref: 'Issue'}]
+  issues : [{type: Schema.Types.ObjectId, ref: 'Issue'}]
 });
 
 mongoose.model('User', UserSchema);
