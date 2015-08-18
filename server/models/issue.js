@@ -13,7 +13,7 @@ var IssueSchema = new mongoose.Schema({
   			created : {type: Date, default: Date.now }
   }],
   created: {type: Date, default: Date.now },
-  issue_status : {type: Boolean, default: false },
+  issue_status : {type: String, default: 'open' },
   priority : String
 });
 

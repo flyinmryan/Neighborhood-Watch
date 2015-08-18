@@ -31,6 +31,20 @@ UserFactory.getUser(function(data){
 	$scope.current_user = data[0];
 	//console.log(data);
 })
+
+UserFactory.getIssues(function(data){
+    // var status;
+    // for(var i=0;i<data.length;i++)
+    //     if(data[i].issue_status == false){
+    //         status  = 'open';
+    //     }else{
+    //         status = "closed";
+    //     }
+    // }
+     $scope.issues = data;
+    // $scope.issues.new_status = status;
+    //console.log($scope.issues);
+})
     $scope.login = function(){
     	UserFactory.login($scope.logged_user, function(output){
     		$location.path('/home');
@@ -38,16 +52,15 @@ UserFactory.getUser(function(data){
     };
     $scope.addIssue = function(id){
     	$scope.new_issue.id = id;
-    	console.log($scope.new_issue);
+    	//console.log($scope.new_issue);
     	UserFactory.addIssue($scope.new_issue,function(){
-
-
+            $scope.new_issue = {};
     	})
     }
 
     $scope.register = function(){
     	if($scope.new_user.password === $scope.new_user.confirmPassword){
-    		UserFactory.register($scope.new_user,function(){
+    		UserFactory.register($scope.new_user,function(output){
     			$scope.current_user = output;
         		//console.log($scope.current_user);
     			$location.path('/home');
@@ -64,6 +77,12 @@ issues.factory('UserFactory',function($http){
 
     factory.getUser = function(callback){
     	callback(current_user);
+    }
+
+    factory.getIssues = function(callback){
+        $http.get('/getIssues').success(function(output){
+            callback(output);
+        })
     }
     factory.login = function(info,callback){
         $http.post('/login',info).success(function(output){

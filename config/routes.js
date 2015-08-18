@@ -20,6 +20,10 @@
       users.addIssue(req,res);
     })
 
+     app.get('/getIssues',function(req,res){
+      users.getIssues(req,res);
+     })
+
   };
 
   

@@ -58,6 +58,7 @@
       color: orange;
       cursor: pointer;
     }
+
   </style>
 
 <div ng-controller ="UserController" id="wrapper">
@@ -128,13 +129,17 @@
     });  
     </script>
 	</div>
-	<div id="complaints">
-		<h2>Latest Complaints</h2>
-		<ul>
-			<li>Complaint</li>
-			<li>Complaint</li>
-			<li>Complaint</li>
-		</ul>
+	<div id="complaints" ng-repeat="issue in issues">
+    <h3>Issue : <span ng-bind="issue.title"></span></h3>
+    <p>Details : <span ng-bind="issue.description"></span></p>
+    <p>Complaint logged at : <span ng-bind="issue.created"></span></p>
+    <p>Priority : <span ng-bind="issue.priority"></span></p>
+    <p>Address : <span ng-bind="issue.street"></span></p>
+    <p>Issue status : <span ng-bind="issue.issue_status"></span></p>
+    <form>
+      <textarea ng-model="new_comment.comment"></textarea>
+      <input type="submit" ng-click="addComment(current_user._id)">
+    </form>
 	</div>
 	<div id="sidebar">
 		<div id="highPriority">

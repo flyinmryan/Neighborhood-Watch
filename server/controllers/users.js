@@ -52,6 +52,17 @@ module.exports = {
 		});
 	},
 
+	getIssues : function(req,res){
+		Issue.find({}).populate('_user').exec(function(err,data){
+			if(err){
+				console.log("error finding issues");
+			}else{
+				//console.log("found issues",data);
+				res.json(data);
+			}
+		})
+	},
+
 	addIssue : function(req,res){
 		console.log(req.body);
 		User.findOne({_id:req.body.id},function(err,singleUser){
