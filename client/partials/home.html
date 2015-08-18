@@ -88,11 +88,11 @@
           console.log(event.latLng);
           addMarker(event.latLng, map);
         });
-        console.log(issues);
-        for (var issue in issues){
-          //addMarker(latLngObj, map);
-          console.log(issue);
-        }
+        //console.log(issues.title);
+        // for (issue in issues){
+        //   //addMarker(latLngObj, map);
+        //   console.log(issues[issue]);
+        // }
       }
        // Adds a marker to the map.
       function addMarker(location, map) {
@@ -144,13 +144,14 @@
     <h3>Issue : <span ng-bind="issue.title"></span></h3>
     <p>Mail : <span ng-bind="issue._user.mail"><span></p>
     <p>Details : <span ng-bind="issue.description"></span></p>
-    <p>Complaint logged at : <span ng-bind="issue.created"></span></p>
+    <p>Complaint logged at : <span ng-bind="issue.created | date:'MMMM d yyyy'"></span></p>
     <p>Priority : <span ng-bind="issue.priority"></span></p>
-    <p>Address : <span ng-bind="issue.street"></span></p>
+    <p>Street : <span ng-bind="issue.street"></span></p>
+    <p>City : <span ng-bind="issue._user.region"></span></p>
     <p>Issue status : <span ng-bind="issue.issue_status"></span></p>
     <form>
-      <textarea ng-model="new_comment.comment"></textarea>
-      <input type="submit" ng-click="addComment(current_user._id)">
+      <input type="text" ng-model="new_comment[issue._id].comment" /><br>
+      <input type="submit" ng-click="addComment(current_user._id)" />
     </form>
 	</div>
 	<div id="sidebar">
@@ -166,8 +167,15 @@
 	</div>
   <div id="hidden">
     <h2>Report a new issue</h2>
+    <form>
     Title:<input type="text" ng-model="new_issue.title" /><br>
     Details:<input type="text" ng-model="new_issue.description" /><br>
     Street Address : <input type="text" ng-model="new_issue.street"><br>
+    Priority : <select ng-model="new_issue.priority">
+                  <option>High</option>
+                  <option>Medium</option>
+                  <option>Low</option>
+               </select><br>
     <input type="submit" ng-click="addIssue(current_user._id)">
+  </form>
   </div>

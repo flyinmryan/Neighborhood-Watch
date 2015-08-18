@@ -24,6 +24,11 @@
       users.getIssues(req,res);
      })
 
+     app.post('/addComment',function(req,res){
+      //console.log(req.body);
+      users.addComment(req,res);
+     })
+
   };
 
   

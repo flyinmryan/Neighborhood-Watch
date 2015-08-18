@@ -24,6 +24,10 @@ module.exports = {
 		})
 	},
 
+	addComment : function(req,res){
+		
+	},
+
 	register: function(req, res){
 		//console.log(req.body);
 		User.find({},function(err,results){

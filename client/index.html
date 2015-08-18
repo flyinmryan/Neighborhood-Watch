@@ -26,7 +26,8 @@ issues.config(function($routeProvider){
 });
 
 issues.controller('UserController', function ($scope,UserFactory,$location){
-
+$scope.new_comment = {};
+$scope.add_comment ={};
 UserFactory.getUser(function(data){
 	$scope.current_user = data[0];
 	//console.log(data);
@@ -49,6 +50,21 @@ UserFactory.getIssues(function(data){
     	})
     }
 
+    $scope.addComment = function(id){
+        //console.log(id);
+        //$scope.new_comment.id = id
+        for (var x in $scope.new_comment){
+           // console.log(x);
+           $scope.add_comment.commentid = x;
+           $scope.add_comment.userid = id;
+           $scope.add_comment.comment = $scope.new_comment[x].comment;
+        }
+       // console.log($scope.add_comment);
+       UserFactory.addComment($scope.add_comment,function(){
+
+       })
+    }
+
     $scope.register = function(){
     	if($scope.new_user.password === $scope.new_user.confirmPassword){
     		UserFactory.register($scope.new_user,function(output){
@@ -65,6 +81,7 @@ UserFactory.getIssues(function(data){
 issues.factory('UserFactory',function($http){
     var factory = {};
     var current_user=[];
+    //var address =[];
 
     factory.getUser = function(callback){
     	callback(current_user);
@@ -72,9 +89,19 @@ issues.factory('UserFactory',function($http){
 
     factory.getIssues = function(callback){
         $http.get('/getIssues').success(function(output){
+            //address.push(output)
+            //console.log(address);
             callback(output);
         })
     }
+
+    factory.addComment = function(data,callback){
+        //console.log(data);
+        $http.post('/addComment',data).success(function(output){
+            callback(output);
+        })
+    }
+
     factory.login = function(info,callback){
         $http.post('/login',info).success(function(output){
         	//console.log(output);
