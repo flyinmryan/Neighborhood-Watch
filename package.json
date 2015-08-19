@@ -2,8 +2,9 @@
   "name": "Watch",
   "version": "0.0.1",
   "dependencies": {
+    "body-parser": "latest",
     "express": "~4.2.0",
     "mongoose": "latest",
-    "body-parser": "latest"
+    "socket.io": "^1.3.6"
   }
 }

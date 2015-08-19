@@ -1,0 +1,22 @@
+<style type="text/css">
+#conversation_board{
+    border : 2px solid black;
+    width: 400px;
+    background-color: #66FFFF;
+}
+#container{
+    margin: 0 auto;
+    width: 970px;
+}
+
+</style>
+
+<div id="container" ng-controller="SocketController">
+	<p id="header">Chat Room</p>
+	<div id="conversation_board"> </div>
+    <form id="message">
+	   <input type="text" id="new_message">
+		<input type="submit" value="submit">
+	</form>
+</div>
+
