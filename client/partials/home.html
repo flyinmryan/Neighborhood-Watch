@@ -79,8 +79,8 @@
 	</div>
 	<div id="map">
     <script>
-    var addresses = ["915 N 1st Street, San Jose, CA", "200 10th Street, San Jose, CA", "Zanker Rd, San Jose, CA", "Levi Stadium, Santa Clara, CA"];
-    $(document).ready(function (newMarker){
+    var addresses = ["915 N 1st Street, San Jose, CA", "200 10th Street, San Jose, CA", "1980 Zanker Rd, San Jose, CA", "Levi Stadium, Santa Clara, CA", "Santa Clara Amtrak Station, Santa Clara, CA"];
+    $(document).ready(function (){
       function initialize() {
         var mapCanvas = document.getElementById('map');
         var mapOptions = {
@@ -93,13 +93,6 @@
         google.maps.event.addListener(map, 'click', function(event) {
           addMarker(event.latLng, map);
         });
-<<<<<<< HEAD
-        //console.log(issues.title);
-        // for (issue in issues){
-        //   //addMarker(latLngObj, map);
-        //   console.log(issues[issue]);
-        // }
-=======
         var sj = new google.maps.LatLng(37.3517, -121.9036);
         addMarker(sj, map);
         function getLocation (address) {
@@ -122,7 +115,7 @@
         for (var i = 0; i < addresses.length; i++){
           address2.push(getLocation(addresses[i]));
         }
->>>>>>> 01bc36e1a6ffdd6fe7334ee4e1d13b0263662828
+//>>>>>>> 01bc36e1a6ffdd6fe7334ee4e1d13b0263662828
       }
       function getLocation (address) {
         var geocoder = new google.maps.Geocoder();
@@ -132,9 +125,6 @@
                 var longitude = results[0].geometry.location.lng();
                 var latLong = new google.maps.LatLng(latitude, longitude);
                 addMarker(latLong, map);
-                //addMarker(latLong, map);)
-                //var latLong = new google.maps.LatLng(latitude, longitude);
-                //addMarker(latLong, map);
             } else {
                 alert("Request failed.");
             }
@@ -165,7 +155,7 @@
       });
       var streetArr = [];
       $("#submit").on("click", function(){
-        getLocation($("#street").val());
+        getLocation($("#street").val() + ", San Jose, CA");
       });
       //Initialize map on window load
       google.maps.event.addDomListener(window, 'load', initialize);

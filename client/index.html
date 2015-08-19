@@ -12,7 +12,7 @@
 ​</head>​
 <script type="text/javascript">
    var issues = angular.module('issues', ['ngRoute']);
-issues.config(function($routeProvider){
+issues.config(function ($routeProvider){
     $routeProvider
     .when('/',{
         templateUrl: 'partials/login.html'
@@ -22,23 +22,30 @@ issues.config(function($routeProvider){
     })
     .when('/home',{
     	templateUrl: 'partials/home.html'
+    })
+    .when('/dashboard',{
+        templateUrl: 'partials/dashboard.html'
     });
 });
 
 issues.controller('UserController', function ($scope,UserFactory,$location){
-$scope.new_comment = {};
-$scope.add_comment ={};
-UserFactory.getUser(function(data){
-	$scope.current_user = data[0];
-	//console.log(data);
-})
+    $scope.new_comment = {};
+    $scope.add_comment ={};
+    UserFactory.getUser(function(data){
+    	$scope.current_user = data[0];
+    	//console.log(data);
+    });
 
-UserFactory.getIssues(function(data){
-     $scope.issues = data;
-})
+    UserFactory.getIssues(function(data){
+         $scope.issues = data;
+    });
     $scope.login = function(){
     	UserFactory.login($scope.logged_user, function(output){
-    		$location.path('/home');
+    		if(output.status === false){
+                $location.path('/home');
+            } else {
+                $location.path('/dashboard');
+            }
     	});
     };
     $scope.addIssue = function(id){
@@ -47,8 +54,8 @@ UserFactory.getIssues(function(data){
     	//console.log($scope.new_issue);
     	UserFactory.addIssue($scope.new_issue,function(){
             $scope.new_issue = {};
-    	})
-    }
+    	});
+    };
 
     $scope.addComment = function(id){
         //console.log(id);
@@ -62,8 +69,8 @@ UserFactory.getIssues(function(data){
        // console.log($scope.add_comment);
        UserFactory.addComment($scope.add_comment,function(){
 
-       })
-    }
+       });
+    };
 
     $scope.register = function(){
     	if($scope.new_user.password === $scope.new_user.confirmPassword){

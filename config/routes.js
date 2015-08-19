@@ -8,7 +8,9 @@
     });  
 
     app.post('/login', function(req, res) {
-      users.login(req,res)
+      
+      users.login(req,res);
+
     });
 
     app.post('/register',function(req,res){

@@ -21,7 +21,7 @@ module.exports = {
 				}
 				//res.json(results);
 			}		
-		})
+		});
 	},
 
 	addComment : function(req,res){
@@ -38,7 +38,7 @@ module.exports = {
 				for(var i=0;i<results.length;i++){
 					if(results[i].mail == req.body.mail){
 						unique = false;
-						break
+						break;
 					}
 				}
 				if(unique){
@@ -51,7 +51,7 @@ module.exports = {
 							//console.log(result);
 							res.json(result);
 						}
-					})
+					});
 				}
 			}
 		});
@@ -65,11 +65,11 @@ module.exports = {
 				console.log("found issues",data);
 				res.json(data);
 			}
-		})
+		});
 	},
 
 	addIssue : function(req,res){
-		console.log(req.body);
+		//console.log(req.body);
 		User.findOne({_id:req.body.id},function(err,singleUser){
 			if(err){
 				console.log("error finding user");
@@ -84,11 +84,11 @@ module.exports = {
 					}else{
 						console.log("added issue successfully");
 					}
-				})
-			})
+				});
+			});
 			}
-		})
+		});
 	}
 
 
-}
+};
