@@ -25,7 +25,19 @@ module.exports = {
 	},
 
 	addComment : function(req,res){
-		
+		console.log(req.body);
+		var query = {_id : req.body.issueid};
+		var data ={};
+		data.comment = req.body.comment;
+		data.mail = req.body.user;
+		Issue.update(query,{$addToSet : {comments : data}},function(err,status){
+			if(err){
+				console.log("error updating comment");
+			}else{
+				console.log("updated comment successfully");
+				res.redirect('/getIssues');
+			}
+		})
 	},
 
 	register: function(req, res){

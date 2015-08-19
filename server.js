@@ -6,7 +6,7 @@ var app = express();
 
 var bodyParser = require("body-parser");
 
-app.use(express.static(path.join(__dirname, './client')));
+app.use(express.static(path.join(__dirname, './client/static')));
 //app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 

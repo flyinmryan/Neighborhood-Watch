@@ -1,0 +1,11 @@
+<a href="#/register">Register<a> | <a href="#/guest">Guest Login</a>
+<div ng-controller="UserController" id="container">
+	<div id="login">
+		<h3>Login</h3>
+		<label>Mail : </label>
+		<input type="text" ng-model="logged_user.mail"><br>
+		<input type="password" ng-model="logged_user.password"><br>
+		<input type="submit" ng-click="login()" value="Login">
+	</div>
+
+</div>
