@@ -9,140 +9,140 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"/></script>​
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-route.min.js"></script> 
     <script src="https://maps.googleapis.com/maps/api/js"></script>
-​</head>​
-<script type="text/javascript">
-   var issues = angular.module('issues', ['ngRoute']);
-issues.config(function($routeProvider){
-    $routeProvider
-    .when('/',{
-        templateUrl: 'partials/login.html'
-    })
-    .when('/register', {
-        templateUrl: 'partials/register.html'
-    })
-    .when('/home',{
-    	templateUrl: 'partials/home.html'
-    });
-});
-
-issues.controller('UserController', function ($scope,UserFactory,$location){
-$scope.new_comment = {};
-$scope.add_comment ={};
-UserFactory.getUser(function(data){
-	$scope.current_user = data[0];
-	//console.log(data);
-})
-
-UserFactory.getIssues(function(data){
-     $scope.issues = data;
-})
-    $scope.login = function(){
-    	UserFactory.login($scope.logged_user, function(output){
-    		$location.path('/home');
-    	});
-    };
-    $scope.addIssue = function(id){
-        //console.log(id);
-    	$scope.new_issue.id = id;
-    	//console.log($scope.new_issue);
-    	UserFactory.addIssue($scope.new_issue,function(){
-            UserFactory.getIssues(function(data){
-                $scope.issues = data;
-                $scope.new_issue = {};
+​<meta charset="utf-8">
+    <script type="text/javascript">
+        var issues = angular.module('issues', ['ngRoute']);
+        issues.config(function($routeProvider){
+            $routeProvider
+            .when('/',{
+                templateUrl: 'partials/login.html'
             })
-            
-    	})
-    }
+            .when('/register', {
+                templateUrl: 'partials/register.html'
+            })
+            .when('/home',{
+                templateUrl: 'partials/home.html'
+            });
+        });
 
-    $scope.addComment = function(id){
-        console.log(id);
-        //$scope.new_comment.id = id
-        //console.log($scope.current_user);
-        for (var x in $scope.new_comment){
-           // console.log(x);
-           $scope.add_comment.user = $scope.current_user.mail;
-           $scope.add_comment.issueid = x;
-           $scope.add_comment.userid = id;
-           $scope.add_comment.comment = $scope.new_comment[x].comment;
-        }
-       // console.log($scope.add_comment);
-       UserFactory.addComment($scope.add_comment,function(){
-       // UserFactory.getIssues(function(data){
-           // $scope.issues = data;
-            $scope.new_comment = {};
-        //})
-       })
-    }
-
-    $scope.register = function(){
-    	if($scope.new_user.password === $scope.new_user.confirmPassword){
-    		UserFactory.register($scope.new_user,function(output){
-    			$scope.current_user = output;
-        		//console.log($scope.current_user);
-    			$location.path('/home');
-    		});
-    	}else{
-    		console.log("Passwords doesn't match");
-    	}
-    };
-});
-
-issues.factory('UserFactory',function($http){
-    var factory = {};
-    var current_user=[];
-    //var address =[];
-
-    factory.getUser = function(callback){
-    	callback(current_user);
-    }
-
-    factory.getIssues = function(callback){
-        $http.get('/getIssues').success(function(output){
-            //address.push(output)
-            //console.log(address);
-            callback(output);
+        issues.controller('UserController', function ($scope,UserFactory,$location){
+        $scope.new_comment = {};
+        $scope.add_comment ={};
+        UserFactory.getUser(function(data){
+            $scope.current_user = data[0];
+            //console.log(data);
         })
-    }
 
-    factory.addComment = function(data,callback){
-        //console.log(data);
-        $http.post('/addComment',data).success(function(output){
-            callback(output);
+        UserFactory.getIssues(function(data){
+             $scope.issues = data;
         })
-    }
+            $scope.login = function(){
+                UserFactory.login($scope.logged_user, function(output){
+                    $location.path('/home');
+                });
+            };
+            $scope.addIssue = function(id){
+                //console.log(id);
+                $scope.new_issue.id = id;
+                //console.log($scope.new_issue);
+                UserFactory.addIssue($scope.new_issue,function(){
+                    UserFactory.getIssues(function(data){
+                        $scope.issues = data;
+                        $scope.new_issue = {};
+                    })
+                    
+                })
+            }
 
-    factory.login = function(info,callback){
-        $http.post('/login',info).success(function(output){
-        	//console.log(output);
-        	current_user.push(output);
-            callback(output);
-        });        
-    }
+            $scope.addComment = function(id){
+                console.log(id);
+                //$scope.new_comment.id = id
+                //console.log($scope.current_user);
+                for (var x in $scope.new_comment){
+                   // console.log(x);
+                   $scope.add_comment.user = $scope.current_user.mail;
+                   $scope.add_comment.issueid = x;
+                   $scope.add_comment.userid = id;
+                   $scope.add_comment.comment = $scope.new_comment[x].comment;
+                }
+               // console.log($scope.add_comment);
+               UserFactory.addComment($scope.add_comment,function(){
+               // UserFactory.getIssues(function(data){
+                   // $scope.issues = data;
+                    $scope.new_comment = {};
+                //})
+               })
+            }
 
-    factory.addIssue = function(data,callback){
-    	//console.log("factory",data);
-    	$http.post('/addIssue',data).success(function(output){
-    		callback(output);
-    	})
-    }
+            $scope.register = function(){
+                if($scope.new_user.password === $scope.new_user.confirmPassword){
+                    UserFactory.register($scope.new_user,function(output){
+                        $scope.current_user = output;
+                        //console.log($scope.current_user);
+                        $location.path('/home');
+                    });
+                }else{
+                    console.log("Passwords doesn't match");
+                }
+            };
+        });
+
+        issues.factory('UserFactory',function($http){
+            var factory = {};
+            var current_user=[];
+            //var address =[];
+
+            factory.getUser = function(callback){
+                callback(current_user);
+            }
+
+            factory.getIssues = function(callback){
+                $http.get('/getIssues').success(function(output){
+                    //address.push(output)
+                    //console.log(address);
+                    callback(output);
+                })
+            }
+
+            factory.addComment = function(data,callback){
+                //console.log(data);
+                $http.post('/addComment',data).success(function(output){
+                    callback(output);
+                })
+            }
+
+            factory.login = function(info,callback){
+                $http.post('/login',info).success(function(output){
+                    //console.log(output);
+                    current_user.push(output);
+                    callback(output);
+                });        
+            }
+
+            factory.addIssue = function(data,callback){
+                //console.log("factory",data);
+                $http.post('/addIssue',data).success(function(output){
+                    callback(output);
+                })
+            }
 
 
-    factory.register = function(info,callback){
-    	//console.log(info);
-        $http.post('/register',info).success(function(output){
-            //console.log(output);
-        	current_user.push(output);
-            //console.log(current_user);
-            callback(output);
-        });        
-    };
+            factory.register = function(info,callback){
+                //console.log(info);
+                $http.post('/register',info).success(function(output){
+                    //console.log(output);
+                    current_user.push(output);
+                    //console.log(current_user);
+                    callback(output);
+                });        
+            };
 
-    return factory;
-});
-</script>
-​<body>​
-
+            return factory;
+        });
+        </script>
+</head>
+<body>
+</body>
+</html>
 <div ng-view="">
 </div>
-​</body>​
-​</html>
