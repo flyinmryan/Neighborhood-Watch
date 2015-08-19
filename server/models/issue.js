@@ -9,7 +9,7 @@ var IssueSchema = new mongoose.Schema({
   _user :  {type: Schema.ObjectId, ref: 'User'},
   comments : [{
   			comment : String,
-  			name : String,
+  			mail : String,
   			created : {type: Date, default: Date.now }
   }],
   created: {type: Date, default: Date.now },

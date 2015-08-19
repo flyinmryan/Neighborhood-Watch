@@ -1,0 +1,19 @@
+<a href="">Login<a> | <a href="">Guest Login</a>	
+
+	<div id="register" ng-controller="UserController">
+		<h3>Register</h3>
+		<label>Enter your e-mail address</label>
+		<input type="text" ng-model="new_user.mail"><br>
+		<label>Enter your Password</label>
+		<input type="password" ng-model="new_user.password">	<br>	
+		<label>Confirm Password</label>
+		<input type="password" ng-model="new_user.confirmPassword">	<br>	
+		<select ng-model="new_user.region">
+			<option>San Jose</option>
+			<option>Santa Clara </option>
+			<option>Sunnyvale </option>
+			<option>Mountain-view</option>
+		</select><br>
+		<input type="submit" ng-click="register()" value="Register">
+
+	</div>	
