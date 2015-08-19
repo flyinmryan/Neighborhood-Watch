@@ -15,7 +15,7 @@ module.exports = {
 	},
 	addIssue : function(req,res){
 		//console.log(req.body);
-		User.findOne({_id:req.body.id},function(err,singleUser){
+		User.findOne({_id:req.body.id},function (err,singleUser){
 			if(err){
 				console.log("error finding user");
 			}else{
@@ -38,6 +38,9 @@ module.exports = {
 		
 	},
 	delete: function (req, res){
+
+	},
+	updateStatus: function (req, res){
 
 	}
 };
