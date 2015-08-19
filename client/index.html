@@ -92,22 +92,22 @@ issues.factory('UserFactory',function($http){
 
     factory.getUser = function(callback){
     	callback(current_user);
-    }
+    };
 
     factory.getIssues = function(callback){
         $http.get('/getIssues').success(function(output){
             //address.push(output)
             //console.log(address);
             callback(output);
-        })
-    }
+        });
+    };
 
     factory.addComment = function(data,callback){
         //console.log(data);
         $http.post('/addComment',data).success(function(output){
             callback(output);
-        })
-    }
+        });
+    };
 
     factory.login = function(info,callback){
         $http.post('/login',info).success(function(output){

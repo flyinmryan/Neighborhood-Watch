@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+body {
+    background: #000 url(../img/wood2.jpg) repeat fixed center top;
+    background-image: url(../img/wood2.jpg);
+    background-position-x: 50%;
+    background-position-y: 0%;
+    background-size: 30% 100%;
+    background-repeat-x: repeat;
+    background-repeat-y: repeat;
+    background-attachment: fixed;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: rgb(0, 0, 0);
+    color: white;
+  }
+  img {
+    position: absolute;
+    left: 30%;
+    top: 10%;
+  }
+  #login {
+    position: absolute;
+    left: 400px;
+    top: 200px;
+    color: red;
+    z-index: 1;
+  }
+  </style>
+</head>
+<body>
+<div>
+<a href="#/register">Register<a> | <a href="#/guest">Guest Login</a>
+<div ng-controller="UserController" id="container">
+    <div id="login">
+        <h3>Login</h3>
+        <label>Mail : </label>
+        <input type="text" ng-model="logged_user.mail"><br>
+        <input type="password" ng-model="logged_user.password"><br>
+        <input type="submit" ng-click="login()" value="Login">
+    </div>
+
+</div>
+<img src="../img/paper.jpg" style="width: 35%; height: 80%;" alt="" />
+</div>
+</body>
+</html>
