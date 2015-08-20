@@ -25,7 +25,7 @@
     }
     #bar {
         background-color: #f4542c;
-        /*opacity: .5;*/
+        opacity: .5;
         height: 8px;
         width: 50px;
             border-radius: 3px;
@@ -36,18 +36,33 @@
     #conversation_board {
         height: 450px;
         width: 750px;
+        color: white;
+        border: 2px solid silver;
+        margin: 10px auto;
+        font-weight: lighter;
+        font-size: 14px;
+        font-style: italic;
+        overflow: auto;
+        /*display: table-cell;
+        vertical-align: bottom;*/
+    }
+    input {
+      background-color: black;
+      color: white;
+    }
+    #chatMsg {
+      color: lightgreen;
     }
 </style>
 
 <div id="container" ng-controller="SocketController">
-	<h1 id="header">Chat Room</h1>
+  <h1 id="header">Chat Room</h1>
     <div id="bar"></div>
-	<div id="conversation_board"> 
-
+  <div id="conversation_board"> 
+    <p id="chatMsg">Welcome to Neighbohood Watch Chat!</p>
     </div>
     <form id="message">
-	   <input type="text" id="new_message">
-		<input type="submit" value="submit">
-	</form>
+     <input type="text" id="new_message">
+    <input type="submit" value="submit">
+  </form>
 </div>
-
