@@ -89,6 +89,8 @@
       });
     };
     $scope.addIssue = function(id){
+        //console.log("addIssue");
+        //console.log($scope.new_issue);
       $scope.new_issue.id = id;
       UserFactory.addIssue($scope.new_issue,function(){
         UserFactory.getIssues(function(data){

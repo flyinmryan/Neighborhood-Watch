@@ -111,44 +111,42 @@
 
   </style>
 <div ng-controller ="UserController" id="wrapper">
-<div id="hidden">
+  <div id="hidden">
     <div id="hiddenDiv">
       <h2>Report a new issue</h2>
-
-      <div id="labels">
-        <form>
-        Title:<br>
-        Details:<br>
-        Street Address :<br> 
-        Priority : <br>
-      </div>
-      <div id="input">
-        <input type="text" ng-model="new_issue.title" /><br>
-        <input type="text" ng-model="new_issue.description" /><br>
-        <input type="text" ng-model="new_issue.street" id="street"><br>
-        <select ng-model="new_issue.priority">
-                    <option>High</option>
-                    <option>Medium</option>
-                    <option>Low</option>
-        </select><br>
-        <input type="submit" ng-click="addIssue(current_user._id)" id="submit">
-        <input type="submit" value="Cancel" id="cancel" />
-      </form>
+        <div id="labels">
+         <form>
+            Title:<br>
+            Details:<br>
+            Street Address :<br> 
+            Priority : <br>
+        </div>
+        <div id="input">
+          <input type="text" ng-model="new_issue.title" /><br>
+          <input type="text" ng-model="new_issue.description" /><br>
+          <input type="text" ng-model="new_issue.street" id="street"><br>
+          <select ng-model="new_issue.priority">
+            <option>High</option>
+            <option>Medium</option>
+            <option>Low</option>
+          </select><br>
+          <input type="submit" ng-click="addIssue(current_user._id)" id="submit">
+          <input type="submit" value="Cancel" id="cancel" />
+        </form>
+        </div>
       </div>
     </div>
-
-  </div>
-	<div id="header">
-		<h1>NEIGHBORHOOD WATCH</h1>
-    <div id="bar"></div>
-    <p id="addIssue">Click here to submit a new report!</p>
-    <a href="#/chat" id="toChat">Go to Chatroom!</a>
-	</div>
-	<div id="map">
-    <script>
-    var addresses = ["915 N 1st Street, San Jose, CA", "200 10th Street, San Jose, CA", "Zanker Rd, San Jose, CA", "Levi Stadium, Santa Clara, CA"];
-    $(document).ready(function (newMarker){
-      function initialize() {
+	  <div id="header">
+		  <h1>NEIGHBORHOOD WATCH</h1>
+      <div id="bar"></div>
+      <p id="addIssue">Click here to submit a new report!</p>
+      <a href="#/chat" id="toChat">Go to Chatroom!</a>
+	  </div>
+	  <div id="map">
+     <script>
+      var addresses = ["915 N 1st Street, San Jose, CA", "200 10th Street, San Jose, CA", "Zanker Rd, San Jose, CA", "Levi Stadium, Santa Clara, CA"];
+      $(document).ready(function (newMarker){
+        function initialize() {
         var mapCanvas = document.getElementById('map');
         var mapOptions = {
           center: new google.maps.LatLng(37.3517, -121.9036),
@@ -270,4 +268,4 @@
 		<a href="#">Contact</a> | <a href="#">About Us</a> | <a href="#">Logout</a>
 	</div>
   
-  </div>
+</div>
