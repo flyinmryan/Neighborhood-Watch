@@ -76,7 +76,6 @@
 
   issues.controller('UserController', function ($scope,UserFactory,$location){
     $(document).ready(function (newMarker){
-      var addresses = ["915 N 1st Street, San Jose, CA", "200 10th Street, San Jose, CA", "Zanker Rd, San Jose, CA", "Levi Stadium, Santa Clara, CA"];
     addresses2 = [];
       function initialize() {
         var mapCanvas = document.getElementById('map');
@@ -154,8 +153,10 @@
 
   UserFactory.getIssues(function (data, address){
     $scope.issues = data;
+    console.log(data);
     $scope.address = address;
     addresses2 = $scope.address;
+    console.log("factory getIssues", addresses2[0].priority);
   });
     $scope.login = function(){
       UserFactory.login($scope.logged_user, function(output){
@@ -166,6 +167,7 @@
       $scope.new_issue.id = id;
       UserFactory.addIssue($scope.new_issue,function(){
         UserFactory.getIssues(function(data){
+          console.log(data);
           $scope.issues = data;
           $scope.new_issue = {};
         });
@@ -232,6 +234,7 @@ issues.factory('socket',function($rootScope){
             factory.getIssues = function(callback){
                 $http.get('/getIssues').success(function(output){
                     for (var i = 0; i < output.length; i++){
+                      //address.push({street: output[i].street, priority: output[i].priority});
                       address.push(output[i].street);
                     };
                     callback(output, address);

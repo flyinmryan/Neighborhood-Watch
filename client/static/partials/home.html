@@ -194,12 +194,22 @@
   <div id="rightContent">
     <h2>Most Recent Reports Filed</h2>
     Priority:  <span class="red">URGENT  </span><span class="yellow">MEDIUM  </span><span class="green">LOW</span>
+
   	<div id="complaints" ng-repeat="issue in issues">
       <div class="logo">
         <img src="../img/red_markerA.png">
       </div>
       <div class="content">
-        <p class="title"><h3>{{issue.title}}</h3></p>
+        <div ng-if="issue.priority == 'High'">
+          <p><h3 class='red'>{{issue.title}}</h3></p>
+        </div>
+        <div ng-if="issue.priority == 'Medium'">
+          <p><h3 class='yellow'>{{issue.title}}</h3></p>
+        </div>
+        <div ng-if="issue.priority == 'Low'">
+          <p><h3 class='green'>{{issue.title}}</h3></p>
+        </div>
+        <!-- <p class="title"><h3 ng-if="issue.priority == 'high'" class="red">{{issue.title}}</h3></p> -->
         <p id="urgency">{{issue.description}}</p>
         <!-- <p id="urgency" ng-if="priority == 'High'" class="red"> -->
         <div class="issue">
