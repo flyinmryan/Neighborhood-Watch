@@ -1,4 +1,21 @@
-<style>
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+  <style type="text/css">
+    body {
+      font-family: Open Sans;
+      background: #000 url(../img/wood3.jpg) repeat fixed center top;
+      background-position-x: 50%;
+      background-position-y: 0%;
+      background-size: 30% 100%;
+      background-repeat-x: repeat;
+      background-repeat-y: repeat;
+      background-attachment: fixed;
+      background-origin: initial;
+      background-clip: initial;
+      background-color: rgb(0, 0, 0);
+      color: white;
+      text-align: center;
+      font-weight: bold;
+    }
     #wrapper {
     	margin: 0px auto;
     	text-align: center;
@@ -7,12 +24,7 @@
       width: 500px;
       height: 400px;
       display: inline-block;
-    }
-    #sidebar {
-    	display: inline-block;
-    	width: 220px;
-    	background-color: gray;
-    	vertical-align: top;
+      margin: 40px 40px 0px 0px;
     }
     #chat {
 			height: 200px;
@@ -20,13 +32,6 @@
 			background-color: green;
 			display: block;
 			padding: 5px;
-    }
-    #highPriority {
-    	height: 200px;
-			width: 200px;
-			background-color: yellow;
-			display: block;
-			padding: 5px; 
     }
     #complaints {
     	display: inline-block;
@@ -36,16 +41,16 @@
     }
     #hidden {
       display: none;
-      height: 500px;
-      width: 600px;
-      border: 3px solid black;
+      height: 350px;
+      width: 400px;
+      border: 3px solid yellow;
       border-radius: 10px;
       background-color: rgba(0,0,0,.5);
       position: absolute;
-        left: 25%;
-        right: 25%;
+        right: 40%;
         top: 20%;
       color: white;
+      z-index: 1;
     }
     #hidden input {
       background-color: black;
@@ -62,24 +67,82 @@
       display: inline-block;
     }
     #addIssue {
-      text-decoration: underline;
-      color: green;
+      color: yellow;
       cursor: hand;
+      font-size: 20px;
+      display: inline;
     }
     #addIssue:hover {
-      color: orange;
+      color: white;
       cursor: pointer;
+    }
+    #toChat {
+      color: yellow;
+      cursor: hand;
+      font-size: 20px;
+      display: inline;
+      margin-left: 220px;
+      text-decoration: none;
+    }
+    #toChat:hover {
+      color: white;
+      cursor: pointer;
+    }
+    #header h1 {
+      font-size: 52px;
+      margin: 0px;
+    }
+    #header {
+      margin: 0px;
+    }
+    #bar {
+      background-color: #f4542c;
+      /*opacity: .5;*/
+      height: 5px;
+      width: 550px;
+      border-radius: 5px;
+      margin: auto;
+      /*width: 20%;*/
+      text-align: center;
+    }
+    #hiddenDiv {
+      margin-top: 75px;
     }
 
   </style>
 <div ng-controller ="UserController" id="wrapper">
+<div id="hidden">
+    <div id="hiddenDiv">
+      <h2>Report a new issue</h2>
+
+      <div id="labels">
+        <form>
+        Title:<br>
+        Details:<br>
+        Street Address :<br> 
+        Priority : <br>
+      </div>
+      <div id="input">
+        <input type="text" ng-model="new_issue.title" /><br>
+        <input type="text" ng-model="new_issue.description" /><br>
+        <input type="text" ng-model="new_issue.street" id="street"><br>
+        <select ng-model="new_issue.priority">
+                    <option>High</option>
+                    <option>Medium</option>
+                    <option>Low</option>
+        </select><br>
+        <input type="submit" ng-click="addIssue(current_user._id)" id="submit">
+        <input type="submit" value="Cancel" id="cancel" />
+      </form>
+      </div>
+    </div>
+
+  </div>
 	<div id="header">
-		<a href="#">Logout</a>
-	</div>
-	<div id="title">
-		<h1>Neighborhood Watch</h1>
-    <p id="addIssue">Click here to add an issue</p>
-    <a href="#/chat"> Goto Chatroom </a>
+		<h1>NEIGHBORHOOD WATCH</h1>
+    <div id="bar"></div>
+    <p id="addIssue">Click here to submit a new report!</p>
+    <a href="#/chat" id="toChat">Go to Chatroom!</a>
 	</div>
 	<div id="map">
     <script>
@@ -173,12 +236,12 @@
       });
       //Initialize map on window load
       google.maps.event.addDomListener(window, 'load', initialize);
-      })
-        
+      });
+        google.maps.event.addDomListener(window, 'load', initialize);
 
     });  
 
-  
+  google.maps.event.addDomListener(window, 'load', initialize);
     </script>
 	</div>
 	<div id="complaints" ng-repeat="issue in issues">
@@ -203,39 +266,8 @@
     </form>
   </div>
 	</div>
-	<div id="sidebar">
-		<div id="highPriority">
-			High Priority Complaints
-		</div>
-		<div id="chat">
-			Chat Box
-		</div>
-	</div>
 	<div id="footer">
 		<a href="#">Contact</a> | <a href="#">About Us</a> | <a href="#">Logout</a>
 	</div>
-  <div id="hidden">
-    <h2>Report a new issue</h2>
-
-    <div id="labels">
-      <form>
-      Title:<br>
-      Details:<br>
-      Street Address :<br> 
-      Priority : <br>
-    </div>
-    <div id="input">
-      <input type="text" ng-model="new_issue.title" /><br>
-      <input type="text" ng-model="new_issue.description" /><br>
-      <input type="text" ng-model="new_issue.street" id="street"><br>
-      <select ng-model="new_issue.priority">
-                  <option>High</option>
-                  <option>Medium</option>
-                  <option>Low</option>
-      </select><br>
-      <input type="submit" ng-click="addIssue(current_user._id)" id="submit">
-      <input type="submit" value="Cancel" id="cancel" />
-    </form>
-    </div>
-
+  
   </div>
