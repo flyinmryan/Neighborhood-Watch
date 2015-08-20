@@ -12,6 +12,7 @@
   <script type ="text/javascript" src="/socket.io/socket.io.js"></script>
 
 <script type="text/javascript">
+  var address =[];
   var issues = angular.module('issues', ['ngRoute']);
   issues.config(function($routeProvider){
     $routeProvider
@@ -74,14 +75,87 @@
 //         });
 
   issues.controller('UserController', function ($scope,UserFactory,$location){
+    $(document).ready(function (newMarker){
+      var addresses = ["915 N 1st Street, San Jose, CA", "200 10th Street, San Jose, CA", "Zanker Rd, San Jose, CA", "Levi Stadium, Santa Clara, CA"];
+    addresses2 = [];
+      function initialize() {
+        var mapCanvas = document.getElementById('map');
+        var mapOptions = {
+          center: new google.maps.LatLng(37.3688, -121.9248),
+          zoom: 12,
+          mapTypeId: google.maps.MapTypeId.HYBRID
+        };
+        var map = new google.maps.Map(mapCanvas, mapOptions);
+        // addMarker()
+        google.maps.event.addListener(map, 'click', function(event) {
+          addMarker(event.latLng, map);
+        });
+
+        var sj = new google.maps.LatLng(37.3517, -121.9036);
+        addMarker(sj, map);
+        function getLocation (address) {
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'address': address }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                var latitude = results[0].geometry.location.lat();
+                var longitude = results[0].geometry.location.lng();
+                var latLong = new google.maps.LatLng(latitude, longitude);
+                addMarker(latLong, map);
+            } else {
+                alert("Request failed.");
+            }
+        });
+      }
+        console.log(addresses2);
+        for (var i = 0; i < addresses2.length; i++){
+          getLocation(addresses2[i]);
+        }
+        // var infowindow = new google.maps.InfoWindow({
+        //   content: contentString
+        // });
+
+      }
+
+      var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      var labelIndex = 0;
+       // Adds a marker to the map.
+      function addMarker(location, map) {
+        marker = new google.maps.Marker({
+          position: location,
+          label: labels[labelIndex++ % labels.length],
+          map: map
+        });
+      }
+
+      $("#addIssue").on("click", function(){
+        $("#hidden").fadeToggle();
+      });
+      var streetArr = [];
+      $("#submit").on("click", function(){
+        getLocation($("#street").val());
+        $("#hidden").fadeToggle();
+      });
+      $('.title').on("click", function(){
+        $(".issue").slideToggle();
+      $("#cancel").on("click", function(){
+        $("#hidden").fadeToggle();
+      });
+      //Initialize map on window load
+      google.maps.event.addDomListener(window, 'load', initialize);
+      });
+      google.maps.event.addDomListener(window, 'load', initialize);
+
+    });  
     $scope.new_comment = {};
     $scope.add_comment ={};
     UserFactory.getUser(function(data){
       $scope.current_user = data[0];
     });
 
-  UserFactory.getIssues(function(data){
+  UserFactory.getIssues(function (data, address){
     $scope.issues = data;
+    $scope.address = address;
+    addresses2 = $scope.address;
   });
     $scope.login = function(){
       UserFactory.login($scope.logged_user, function(output){
@@ -150,7 +224,6 @@ issues.factory('socket',function($rootScope){
         issues.factory('UserFactory',function($http){
             var factory = {};
             var current_user=[];
-            //var address =[];
 
             factory.getUser = function(callback){
                 callback(current_user);
@@ -158,9 +231,10 @@ issues.factory('socket',function($rootScope){
 
             factory.getIssues = function(callback){
                 $http.get('/getIssues').success(function(output){
-                    //address.push(output)
-                    //console.log(address);
-                    callback(output);
+                    for (var i = 0; i < output.length; i++){
+                      address.push(output[i].street);
+                    };
+                    callback(output, address);
                 })
             }
 
