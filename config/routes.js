@@ -13,6 +13,11 @@
 
     });
 
+    app.get('/2get_issue/:id',function(req,res){
+
+      users.get_issue(req,res);
+    });
+
     app.post('/register',function(req,res){
       //console.log(req.body);
       users.register(req,res);

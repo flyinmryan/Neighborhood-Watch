@@ -236,9 +236,9 @@
 	</div>
 	<div id="complaints" ng-repeat="issue in issues">
     
-    <p class="title"><h3>Issue : {{issue.title}}</h3></p>
+    <h3>Issue : <a href="#/issue/{{issue._id}}">{{issue.title}}</a></h3><br>
     
-    <p>Mail : <span ng-bind="issue._user.mail"><span></p>
+<!--     <p>Mail : <span ng-bind="issue._user.mail"><span></p>
     <p>Details : <span ng-bind="issue.description"></span></p>
     <p>Complaint logged at : <span ng-bind="issue.created | date:'MMMM d yyyy'"></span></p>
     <p>Priority : <span ng-bind="issue.priority"></span></p>
@@ -253,7 +253,7 @@
     <form>
       <input type="text" ng-model="new_comment[issue._id].comment" /><br>
       <input type="submit" ng-click="addComment(current_user._id)" />
-    </form>
+    </form> -->
   
 	</div>
 	<div id="footer">

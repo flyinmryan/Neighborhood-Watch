@@ -26,6 +26,9 @@
     })
     .when('/chat',{
         templateUrl: 'partials/chat.html'
+    })
+    .when('/issue/:id',{
+        templateUrl: 'partials/issue.html'
     });
   });
 
@@ -73,7 +76,9 @@
 //             });
 //         });
 
-  issues.controller('UserController', function ($scope,UserFactory,$location){
+
+
+  issues.controller('UserController', function ($scope,UserFactory,$location,$routeParams){
     $scope.new_comment = {};
     $scope.add_comment ={};
     UserFactory.getUser(function(data){
@@ -83,6 +88,11 @@
   UserFactory.getIssues(function(data){
     $scope.issues = data;
   });
+
+  UserFactory.getIssuesById($routeParams.id,function(data){
+    $scope.issue = data;
+  });
+
     $scope.login = function(){
       UserFactory.login($scope.logged_user, function(output){
         $location.path('/home');
@@ -99,19 +109,27 @@
         });
       });
     };
-    $scope.addComment = function(id){
-      console.log(id);
-      for (var x in $scope.new_comment){
-        $scope.add_comment.user = $scope.current_user.mail;
-        $scope.add_comment.issueid = x;
-        $scope.add_comment.userid = id;
-        $scope.add_comment.comment = $scope.new_comment[x].comment;
-      }
-      UserFactory.addComment($scope.add_comment,function(){
-          $scope.new_comment = {};
-      //})
-     });
-    };
+
+    $scope.addComment = function(){
+        //console.log(id);
+        //$scope.new_comment.id = id
+        //console.log($scope.current_user);
+        for (var x in $scope.new_comment){
+           // console.log(x);
+           $scope.add_comment.user = $scope.current_user.mail;
+           $scope.add_comment.issueid = x;
+           //$scope.add_comment.userid = id;
+           $scope.add_comment.comment = $scope.new_comment[x].comment;
+        }
+       // console.log($scope.add_comment);
+       UserFactory.addComment($scope.add_comment,function(){
+       // UserFactory.getIssues(function(data){
+           // $scope.issues = data;
+            $scope.new_comment = {};
+        //})
+       })
+    }
+
     $scope.register = function(){
       if($scope.new_user.password === $scope.new_user.confirmPassword){
         UserFactory.register($scope.new_user,function(output){
@@ -166,6 +184,13 @@ issues.factory('socket',function($rootScope){
                 })
             }
 
+            factory.getIssuesById = function(id,callback){
+                //console.log("id", id);
+                $http.get('/get_issue/'+id).success(function(output){
+                    callback(output[0]);
+                });
+            };
+
             factory.addComment = function(data,callback){
                 //console.log(data);
                 $http.post('/addComment',data).success(function(output){
@@ -184,8 +209,8 @@ issues.factory('socket',function($rootScope){
             factory.addIssue = function(data,callback){
                 //console.log("factory",data);
                 $http.post('/addIssue',data).success(function(output){
-                    callback(output);
                 })
+                callback(output);
             }
 
 

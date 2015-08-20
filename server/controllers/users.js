@@ -25,7 +25,7 @@ module.exports = {
 	},
 
 	addComment : function(req,res){
-		console.log(req.body);
+		//console.log(req.body);
 		var query = {_id : req.body.issueid};
 		var data ={};
 		data.comment = req.body.comment;
@@ -74,14 +74,25 @@ module.exports = {
 			if(err){
 				console.log("error finding issues");
 			}else{
-				console.log("found issues",data);
+				//console.log("found issues",data);
 				res.json(data);
 			}
 		})
 	},
 
+	get_issue : function(req,res){
+		console.log(req.params.id);
+		Issue.find({_id : req.params.id}).populate('_user').exec (function(err,result){
+			if(err){
+				console.log("error finding issue");
+			}else{
+				res.json(result);
+			}
+		})
+	},
+
 	addIssue : function(req,res){
-		console.log(req.body);
+		//console.log(req.body);
 		User.findOne({_id:req.body.id},function(err,singleUser){
 			if(err){
 				console.log("error finding user");

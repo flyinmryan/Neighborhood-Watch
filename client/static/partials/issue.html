@@ -1,0 +1,48 @@
+<style type="text/css">
+    body {
+      font-family: Open Sans;
+      background: #000 url(../img/wood3.jpg) repeat fixed center top;
+      background-position-x: 50%;
+      background-position-y: 0%;
+      background-size: 30% 100%;
+      background-repeat-x: repeat;
+      background-repeat-y: repeat;
+      background-attachment: fixed;
+      background-origin: initial;
+      background-clip: initial;
+      background-color: rgb(0, 0, 0);
+      color: white;
+      text-align: center;
+      font-weight: bold;
+    }
+    h2{
+    	color: red;
+    }
+    #comment{
+    	color: black;
+    }
+    #comment-txt{
+    	color: black;
+    }
+
+</style>
+
+<div ng-controller="UserController">
+	    <h2>Issue : {{issue.title}}</h2>    
+    <h3>Details : <span ng-bind="issue.description"></span></h3>
+    <h3>Priority : <span ng-bind="issue.priority"></span></h3>
+    <h3>Street : <span ng-bind="issue.street"></span></h3>
+    <h3>City : <span ng-bind="issue._user.region"></span></h3>
+    <h3>Issue status : <span ng-bind="issue.issue_status"></span></h3>
+    <h3>Mail : <span ng-bind="issue._user.mail"><span> </h3>
+    <h3>Complaint logged at : <span ng-bind="issue.created | date:'MMMM d yyyy'"></span></h3>
+    <h2>Comments</h2>
+    <div ng-repeat="comment in issue.comments">
+      <h3 ng-bind="comment.mail"> </h3> 
+      <p><i ng-bind="comment.comment"></i></p>
+    </div>
+    <form>
+      <input type="text" ng-model="new_comment[issue._id].comment" id="comment-txt"/><br>
+      <input type="submit" ng-click="addComment()" id="comment"/>
+    </form>
+</div>
