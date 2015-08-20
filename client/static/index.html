@@ -10,10 +10,10 @@
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-route.min.js"></script> 
   <script src="https://maps.googleapis.com/maps/api/js"></script>
   <script type ="text/javascript" src="/socket.io/socket.io.js"></script>
-​</head>​
+
 <script type="text/javascript">
-   var issues = angular.module('issues', ['ngRoute']);
-issues.config(function($routeProvider){
+  var issues = angular.module('issues', ['ngRoute']);
+  issues.config(function($routeProvider){
     $routeProvider
     .when('/',{
         templateUrl: 'partials/login.html'
@@ -27,128 +27,100 @@ issues.config(function($routeProvider){
     .when('/chat',{
         templateUrl: 'partials/chat.html'
     });
-});
+  });
 
-issues.controller('SocketController', function ($scope, socket,UserFactory) {
-    // socket.emit("hello", {test: "test"});
-    // socket.on('online_users', function (data){
-    //         console.log(data);
-    //         //we can make the online users a <a> tag and when the user clicks on a particular user, they both start a new private chat room.
-    //         $('#right').append("<h3>"+ data.name + "<h3><br>");
-    //     })
-UserFactory.getUser(function(data){
-    $scope.logged_user = data[0].mail;
-})
-//console.log($scope.logged_user);
+  issues.controller('SocketController', function ($scope, socket,UserFactory) {
+    UserFactory.getUser(function(data){
+      $scope.logged_user = data[0].mail;
+    });
     $('#message').submit(function (){
-        var new_message = $('#new_message').val();
-        socket.emit('got_new_message',{name : $scope.logged_user, message : new_message});
-        $('#new_message').val("");
-        return false;
-    })
+      var new_message = $('#new_message').val();
+      socket.emit('got_new_message',{name : $scope.logged_user, message : new_message});
+      $('#new_message').val("");
+      return false;
+    });
     socket.on('post_new_message', function (data){
-        $("#conversation_board").append("<p>" + data.user + ": " + data.new_message + "</p>");
-    })
+      $("#conversation_board").append("<p>" + data.user + ": " + data.new_message + "</p>");
+    });
     socket.on('user_left', function (data){
-        //console.log(data);
-       $("#conversation_board").append("<p>" + data.name + " has logged out");
-    })    
+      $("#conversation_board").append("<p>" + data.name + " has logged out");
+    });   
 
-})
+  });
 
-issues.controller('UserController', function ($scope,UserFactory,$location){
-$scope.new_comment = {};
-$scope.add_comment ={};
-UserFactory.getUser(function(data){
-	$scope.current_user = data[0];
-	//console.log(data);
-})
+// UserFactory.getIssues(function(data){
+//      $scope.issues = data;
+// })
+//     $scope.login = function(){
+//     	UserFactory.login($scope.logged_user, function(output){
+//     		$location.path('/home');
+//     	});
+//     };
+//     $scope.addIssue = function(id){
+//         //console.log(id);
+//     	$scope.new_issue.id = id;
+//     	//console.log($scope.new_issue);
+//     	UserFactory.addIssue($scope.new_issue,function(){
+//             UserFactory.getIssues(function(data){
+//                 $scope.issues = data;
+//                 $scope.new_issue = {};
+//             })
+//             .when('/register', {
+//                 templateUrl: 'partials/register.html'
+//             })
+//             .when('/home',{
+//                 templateUrl: 'partials/home.html'
+//             });
+//         });
 
-UserFactory.getIssues(function(data){
-     $scope.issues = data;
-})
+  issues.controller('UserController', function ($scope,UserFactory,$location){
+    $scope.new_comment = {};
+    $scope.add_comment ={};
+    UserFactory.getUser(function(data){
+      $scope.current_user = data[0];
+    });
+
+  UserFactory.getIssues(function(data){
+    $scope.issues = data;
+  });
     $scope.login = function(){
-    	UserFactory.login($scope.logged_user, function(output){
-    		$location.path('/home');
-    	});
+      UserFactory.login($scope.logged_user, function(output){
+        $location.path('/home');
+      });
     };
     $scope.addIssue = function(id){
-        //console.log(id);
-    	$scope.new_issue.id = id;
-    	//console.log($scope.new_issue);
-    	UserFactory.addIssue($scope.new_issue,function(){
-            UserFactory.getIssues(function(data){
-                $scope.issues = data;
-                $scope.new_issue = {};
-            })
-            .when('/register', {
-                templateUrl: 'partials/register.html'
-            })
-            .when('/home',{
-                templateUrl: 'partials/home.html'
-            });
-        });
-
-        issues.controller('UserController', function ($scope,UserFactory,$location){
-        $scope.new_comment = {};
-        $scope.add_comment ={};
-        UserFactory.getUser(function(data){
-            $scope.current_user = data[0];
-            //console.log(data);
-        })
-
+      $scope.new_issue.id = id;
+      UserFactory.addIssue($scope.new_issue,function(){
         UserFactory.getIssues(function(data){
-             $scope.issues = data;
-        })
-            $scope.login = function(){
-                UserFactory.login($scope.logged_user, function(output){
-                    $location.path('/home');
-                });
-            };
-            $scope.addIssue = function(id){
-                //console.log(id);
-                $scope.new_issue.id = id;
-                //console.log($scope.new_issue);
-                UserFactory.addIssue($scope.new_issue,function(){
-                    UserFactory.getIssues(function(data){
-                        $scope.issues = data;
-                        $scope.new_issue = {};
-                    })
-                    
-                })
-            }
-
-            $scope.addComment = function(id){
-                console.log(id);
-                //$scope.new_comment.id = id
-                //console.log($scope.current_user);
-                for (var x in $scope.new_comment){
-                   // console.log(x);
-                   $scope.add_comment.user = $scope.current_user.mail;
-                   $scope.add_comment.issueid = x;
-                   $scope.add_comment.userid = id;
-                   $scope.add_comment.comment = $scope.new_comment[x].comment;
-                }
-               // console.log($scope.add_comment);
-               UserFactory.addComment($scope.add_comment,function(){
-               // UserFactory.getIssues(function(data){
-                   // $scope.issues = data;
-                    $scope.new_comment = {};
-                //})
-               })
-            }
-            $scope.register = function(){
-                if($scope.new_user.password === $scope.new_user.confirmPassword){
-                    UserFactory.register($scope.new_user,function(output){
-                        $scope.current_user = output;
-                        //console.log($scope.current_user);
-                        $location.path('/home');
-                    });
-                }else{
-                    console.log("Passwords doesn't match");
-                }
-            };
+          $scope.issues = data;
+          $scope.new_issue = {};
         });
+      });
+    };
+    $scope.addComment = function(id){
+      console.log(id);
+      for (var x in $scope.new_comment){
+        $scope.add_comment.user = $scope.current_user.mail;
+        $scope.add_comment.issueid = x;
+        $scope.add_comment.userid = id;
+        $scope.add_comment.comment = $scope.new_comment[x].comment;
+      }
+      UserFactory.addComment($scope.add_comment,function(){
+          $scope.new_comment = {};
+      //})
+     });
+    };
+    $scope.register = function(){
+      if($scope.new_user.password === $scope.new_user.confirmPassword){
+        UserFactory.register($scope.new_user,function(output){
+          $scope.current_user = output;
+          $location.path('/home');
+        });
+      } else {
+        console.log("Passwords doesn't match");
+      }
+    };
+  });
 
 issues.factory('socket',function($rootScope){
   var socket = io.connect();
@@ -174,9 +146,6 @@ issues.factory('socket',function($rootScope){
   };    
 })
 
-issues.factory('UserFactory',function($http){
-    var factory = {};
-    var current_user=[];
 
         issues.factory('UserFactory',function($http){
             var factory = {};
@@ -230,7 +199,7 @@ issues.factory('UserFactory',function($http){
 
             return factory;
         });
-        </script>
+       </script>
 </head>
 <body>
 </body>

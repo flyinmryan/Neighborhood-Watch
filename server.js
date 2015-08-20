@@ -21,8 +21,8 @@ require('./config/routes.js')(app);
 var socket_id ;
 var users = [];
 var messages =[];
-var server = app.listen(8000, function() {
- console.log("listening on port 8000");
+var server = app.listen(8008, function() {
+ console.log("listening on port 8008");
 })
 var io = require('socket.io').listen(server) 
 io.sockets.on('connection', function (socket) {
