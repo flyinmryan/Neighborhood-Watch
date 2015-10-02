@@ -14,13 +14,33 @@ module.exports = {
 				for(var i=0;i<results.length;i++){
 					if(results[i].mail == req.body.mail ){
 						console.log("found user");
-						res.json(results[i]);
-					}else{
+						if(results[i].password == req.body.password){
+							res.json(results[i]);
+						}else{
+						console.log("password doesn't match");
+						}
+					}
+					else{
 						console.log("user not found");
 					}
 				}
 				//res.json(results);
 			}		
+		})
+	},
+
+	changeStatus : function(req,res){
+		//console.log(req.body);
+		var query = {_id : req.body.id};
+		Issue.update(query,{$set : {issue_status : 'closed'}},function(err){
+			if(err){
+				//console.log(err);
+				console.log('error updating status');
+				res.end();
+			}else{
+				console.log('successfully updated status');
+				res.end();
+			}
 		})
 	},
 
@@ -106,6 +126,7 @@ module.exports = {
 						console.log("issue adding an issue");
 					}else{
 						console.log("added issue successfully");
+						res.redirect('/getIssues');
 					}
 				})
 			})

@@ -17,8 +17,8 @@
       font-weight: bold;
     }
     #wrapper {
-    	margin: 0px auto;
-    	text-align: center;
+      margin: 0px auto;
+      text-align: center;
     }
     #map {
       width: 500px;
@@ -27,17 +27,31 @@
       margin: 40px 40px 0px 0px;
     }
     #chat {
-			height: 200px;
-			width: 200px;
-			background-color: green;
-			display: block;
-			padding: 5px;
+      height: 200px;
+      width: 200px;
+      background-color: green;
+      display: block;
+      padding: 5px;
     }
     #complaints {
-    	display: inline-block;
+      display: inline-block;
+      width: 350px;
+      vertical-align: top;
+      border: 2px solid white;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+    #complaints h3 {
+      margin-top: 10px;
+    }
+    #complaints a:hover {
+      color: #f4542c;
+    }
+    #complaints p {
+      font-weight: lighter;
     }
     #footer {
-    	text-align: center;
+      text-align: center;
     }
     #hidden {
       display: none;
@@ -45,7 +59,7 @@
       width: 400px;
       border: 3px solid yellow;
       border-radius: 10px;
-      background-color: rgba(0,0,0,.5);
+      background-color: rgba(0,0,0,.8);
       position: absolute;
         right: 40%;
         top: 20%;
@@ -55,6 +69,10 @@
     #hidden input {
       background-color: black;
     }
+    #hidden select {
+      background-color: black;
+      color: white;
+    }
     .issue{
       display: none;
     }
@@ -62,6 +80,7 @@
       text-align: right;
       display: inline-block;
       vertical-align: top;
+      line-height: 26px;
     }
     #input {
       display: inline-block;
@@ -108,156 +127,138 @@
     #hiddenDiv {
       margin-top: 75px;
     }
-
+    #rightContent {
+      display: inline-block;
+      width: 480px;
+      vertical-align: top;
+      margin-top: 30px;
+    }
+    #leftContent {
+      display: inline-block;
+      width: 480px
+    }
+    .red {
+      color: red;
+    }
+    .yellow {
+      color: yellow;
+    }
+    .green {
+      color: green;
+    }
+    .logo {
+      display: inline-block;
+      vertical-align: top;
+      margin-top: 15px;
+    }
+    .content {
+      display: inline-block;
+      width: 250px;
+    }
+    .logo img {
+      height: 50px;
+      width: 30px;
+    }
+    #weather {
+      height: 100px;
+      width: 100px;
+      position: absolute;
+    }
   </style>
+  <script type="text/javascript">
+    $.get('http://api.openweathermap.org/data/2.5/weather?q=sanclara&mode=html', function(data) {
+      console.log(data);
+      $("#weather").html(data);
+    });
+</script>
 <div ng-controller ="UserController" id="wrapper">
-  <div id="hidden">
+<div id="hidden">
     <div id="hiddenDiv">
       <h2>Report a new issue</h2>
-        <div id="labels">
-         <form>
-            Title:<br>
-            Details:<br>
-            Street Address :<br> 
-            Priority : <br>
+
+      <div id="labels">
+        <form>
+        Title:<br>
+        Details:<br>
+        Street Address :<br> 
+        Priority : <br>
+      </div>
+      <div id="input">
+        <input type="text" ng-model="new_issue.title" /><br>
+        <input type="text" ng-model="new_issue.description" /><br>
+        <input type="text" ng-model="new_issue.street" id="street"><br>
+        <select ng-model="new_issue.priority">
+                    <option selected="selected">High</option>
+                    <option>Medium</option>
+                    <option>Low</option>
+        </select><br>
+        <input type="submit" ng-click="addIssue(current_user._id)" id="submit">
+        <input type="submit" value="Cancel" id="cancel" />
+      </form>
+      </div>
+    </div>
+
+  </div>
+  <div id="weather">
+    <!-- Current weather -->
+  </div>
+  <div id="header">
+    <h1>NEIGHBORHOOD WATCH</h1>
+    <div id="bar"></div>
+    <p id="addIssue">Click here to submit a new report!</p>
+    <a href="#/chat" id="toChat">Go to Chatroom!</a>
+  </div>
+  <div id="leftContent">
+   <div id="map">
+   </div>
+  </div>
+  <div id="rightContent">
+    <h2>Most Recent Reports Filed</h2>
+    Priority:  <span class="red">URGENT  </span><span class="yellow">MEDIUM  </span><span class="green">LOW</span>
+
+    <div id="complaints" ng-repeat="issue in issues">
+      <div class="logo">
+        <img src="../img/red_marker{{ $index }}.png">
+      </div>
+      <div class="content">
+        <div ng-if="issue.priority == 'High'">
+          <!-- <p><h3 class='red'>{{issue.title}}</h3></p> -->
+          <p><h3><a class="red" href="#/issue/{{issue._id}}">{{issue.title}}</a></h3>
         </div>
-        <div id="input">
-          <input type="text" ng-model="new_issue.title" /><br>
-          <input type="text" ng-model="new_issue.description" /><br>
-          <input type="text" ng-model="new_issue.street" id="street"><br>
-          <select ng-model="new_issue.priority">
-            <option>High</option>
-            <option>Medium</option>
-            <option>Low</option>
-          </select><br>
-          <input type="submit" ng-click="addIssue(current_user._id)" id="submit">
-          <input type="submit" value="Cancel" id="cancel" />
-        </form>
+        <div ng-if="issue.priority == 'Medium'">
+          <!-- <p><h3 class='yellow'>{{issue.title}}</h3></p> -->
+          <p><h3><a class="yellow" href="#/issue/{{issue._id}}">{{issue.title}}</a></h3>
+        </div>
+        <div ng-if="issue.priority == 'Low'">
+          <!-- <p><h3 class='green'>{{issue.title}}</h3></p> -->
+          <p><h3><a class='green' href="#/issue/{{issue._id}}">{{issue.title}}</a></h3>
+        </div>
+        <!-- <p class="title"><h3 ng-if="issue.priority == 'high'" class="red">{{issue.title}}</h3></p> -->
+        <p id="urgency">{{issue.description}}</p>
+        <!-- <p id="urgency" ng-if="priority == 'High'" class="red"> -->
+        <div class="issue">
+          <p>Mail : <span ng-bind="issue._user.mail"><span></p>
+          <!-- <p>Details : <span ng-bind="issue.description"></span></p> -->
+          <p>Complaint logged at : <span ng-bind="issue.created | date:'MMMM d yyyy'"></span></p>
+          <p>Priority : <span ng-bind="issue.priority"></span></p>
+          <p>Street : <span ng-bind="issue.street"></span></p>
+          <p>City : <span ng-bind="issue._user.region"></span></p>
+          <p>Issue status : <span ng-bind="issue.issue_status"></span></p>
+          <h3>Comments</h3>
+          <div ng-repeat="comment in issue.comments">
+            <h4 ng-bind="comment.mail"> </h4> 
+            <p ng-bind="comment.comment"></p>
+          </div>
+          <form>
+            <input type="text" ng-model="new_comment[issue._id].comment" /><br>
+            <input type="submit" ng-click="addComment(current_user._id)" />
+          </form>
         </div>
       </div>
     </div>
-	  <div id="header">
-		  <h1>NEIGHBORHOOD WATCH</h1>
-      <div id="bar"></div>
-      <p id="addIssue">Click here to submit a new report!</p>
-      <a href="#/chat" id="toChat">Go to Chatroom!</a>
-	  </div>
-	  <div id="map">
-     <script>
-      var addresses = ["915 N 1st Street, San Jose, CA", "200 10th Street, San Jose, CA", "Zanker Rd, San Jose, CA", "Levi Stadium, Santa Clara, CA"];
-      $(document).ready(function (newMarker){
-        function initialize() {
-        var mapCanvas = document.getElementById('map');
-        var mapOptions = {
-          center: new google.maps.LatLng(37.3688, -121.9248),
-          zoom: 12,
-          mapTypeId: google.maps.MapTypeId.HYBRID
-        };
-        var map = new google.maps.Map(mapCanvas, mapOptions);
-        // addMarker()
-        google.maps.event.addListener(map, 'click', function(event) {
-          addMarker(event.latLng, map);
-        });
-
-        var sj = new google.maps.LatLng(37.3517, -121.9036);
-        addMarker(sj, map);
-        function getLocation (address) {
-        var geocoder = new google.maps.Geocoder();
-        geocoder.geocode({ 'address': address }, function (results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                var latitude = results[0].geometry.location.lat();
-                var longitude = results[0].geometry.location.lng();
-                var latLong = new google.maps.LatLng(latitude, longitude);
-                addMarker(latLong, map);
-            } else {
-                alert("Request failed.");
-            }
-        });
-      }
-        var address2 = [];
-        for (var i = 0; i < addresses.length; i++){
-          address2.push(getLocation(addresses[i]));
-        }
-        // var infowindow = new google.maps.InfoWindow({
-        //   content: contentString
-        // });
-
-      }
-      function getLocation (address) {
-        var geocoder = new google.maps.Geocoder();
-        geocoder.geocode({ 'address': address }, function (results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                var latitude = results[0].geometry.location.lat();
-                var longitude = results[0].geometry.location.lng();
-                var latLong = new google.maps.LatLng(latitude, longitude);
-                addMarker(latLong, map);
-                //addMarker(latLong, map);)
-                //var latLong = new google.maps.LatLng(latitude, longitude);
-                //addMarker(latLong, map);
-            } else {
-                alert("Request failed.");
-            }
-        });
-      }
-
-      var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      var labelIndex = 0;
-       // Adds a marker to the map.
-      function addMarker(location, map) {
-        marker = new google.maps.Marker({
-          position: location,
-          label: labels[labelIndex++ % labels.length],
-          map: map
-        });
-      }
-
-      $("#addIssue").on("click", function(){
-        $("#hidden").fadeToggle();
-      });
-      var streetArr = [];
-      $("#submit").on("click", function(){
-        getLocation($("#street").val());
-        $("#hidden").fadeToggle();
-      });
-      $('.title').on("click", function(){
-        $(".issue").slideToggle();
-      $("#cancel").on("click", function(){
-        $("#hidden").fadeToggle();
-      });
-      //Initialize map on window load
-      google.maps.event.addDomListener(window, 'load', initialize);
-      });
-      google.maps.event.addDomListener(window, 'load', initialize);
-
-    });  
-
-  //google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
-	</div>
-	<div id="complaints" ng-repeat="issue in issues">
-    
-    <h3>Issue : <a href="#/issue/{{issue._id}}">{{issue.title}}</a></h3><br>
-    
-<!--     <p>Mail : <span ng-bind="issue._user.mail"><span></p>
-    <p>Details : <span ng-bind="issue.description"></span></p>
-    <p>Complaint logged at : <span ng-bind="issue.created | date:'MMMM d yyyy'"></span></p>
-    <p>Priority : <span ng-bind="issue.priority"></span></p>
-    <p>Street : <span ng-bind="issue.street"></span></p>
-    <p>City : <span ng-bind="issue._user.region"></span></p>
-    <p>Issue status : <span ng-bind="issue.issue_status"></span></p>
-    <h3>Comments</h3>
-    <div ng-repeat="comment in issue.comments">
-      <h4 ng-bind="comment.mail"> </h4> 
-      <p ng-bind="comment.comment"></p>
-    </div>
-    <form>
-      <input type="text" ng-model="new_comment[issue._id].comment" /><br>
-      <input type="submit" ng-click="addComment(current_user._id)" />
-    </form> -->
-  
-	</div>
-	<div id="footer">
-		<a href="#">Contact</a> | <a href="#">About Us</a> | <a href="#">Logout</a>
-	</div>
+  </div>
+  <div id="footer">
+    <a href="#">Contact</a> | <a href="#">About Us</a> | <a href="#/">Logout</a>
+  </div>
   
 </div>

@@ -1,57 +1,7 @@
-<style>
-	.complaint {
-		display: block;
-		vertical-align: top;
-	}
-	#latest {
-		display: inline-block;
-	}
-	#latest a {
-		display: block;
-	}
-	textarea {
-		display: block;
-	}
-	#sidebar {
-		display: inline-block;
-	}
-</style>
-<div ng-controller="" id="wrapper">
-	<h2>Admin Dashboard</h2>
-	<div id="latest">
-		<div class="complaint">
-			<a href="#">Complaint</a>
-			Complaint Description
-			<textarea rows="3" cols="50">Enter answer here</textarea>
-		</div>
-		<div class="complaint">
-			<a href="#">Complaint</a>
-			Complaint Description
-			<textarea rows="3" cols="50">Enter answer here</textarea>
-		</div>
-		<div class="complaint">
-			<a href="#">Complaint</a>
-			Complaint Description
-			<textarea rows="3" cols="50">Enter answer here</textarea>
-		</div>
-		<div class="complaint">
-			<a href="#">Complaint</a>
-			Complaint Description
-			<textarea rows="3" cols="50">Enter answer here</textarea>
-		</div>
-	</div>
-	<div id="sidebar">
-		<ul>
-			<li>User</li>
-			<li>User</li>
-			<li>User</li>
-			<li>User</li>
-			<li>User</li>
-			<li>User</li>
-			<li>User</li>
-			<li>User</li>
-			<li>User</li>
-			<li>User</li>
-			<li>User</li>
-	</div>
+<div ng-controller="UserController">
+	<div ng-repeat="issue in issues">
+		<h3>Issue : {{issue.title}} </h3>
+		<p>Description : {{issue.description}} </p>
+		<p>Satus : {{issue.issue_status}} </p>
+		<input type="submit" value="Close the issue" ng-click="changeStatus(issue._id)">
 </div>

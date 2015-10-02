@@ -13,7 +13,7 @@
 
     });
 
-    app.get('/2get_issue/:id',function(req,res){
+    app.get('/get_issue/:id',function(req,res){
 
       users.get_issue(req,res);
     });
@@ -27,7 +27,11 @@
       users.addIssue(req,res);
     })
 
-     app.get('/getIssues',function(req,res){
+    app.post('/changeStatus',function(req,res){
+      users.changeStatus(req,res);
+     })
+
+    app.get('/getIssues',function(req,res){
       users.getIssues(req,res);
      })
 
@@ -35,7 +39,6 @@
       //console.log(req.body);
       users.addComment(req,res);
      })
-
   };
 
   
