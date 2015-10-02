@@ -166,7 +166,7 @@
     }
   </style>
   <script type="text/javascript">
-    $.get('http://api.openweathermap.org/data/2.5/weather?q=sanclara&mode=html', function(data) {
+    $.get('http://api.openweathermap.org/data/2.5/weather?q=san-jose-usa&mode=html', function(data) {
       console.log(data);
       $("#weather").html(data);
     });
@@ -180,7 +180,7 @@
         <form>
         Title:<br>
         Details:<br>
-        Street Address :<br> 
+        Street Address :<br>
         Priority : <br>
       </div>
       <div id="input">
@@ -221,7 +221,7 @@
 
   	<div id="complaints" ng-repeat="issue in issues">
       <div class="logo">
-        <img src="../img/red_marker{{ $index }}.png">
+        <img src="../img/red_Marker{{ $index }}.png">
       </div>
       <div class="content">
         <div ng-if="issue.priority == 'High'">
@@ -249,7 +249,7 @@
           <p>Issue status : <span ng-bind="issue.issue_status"></span></p>
           <h3>Comments</h3>
           <div ng-repeat="comment in issue.comments">
-            <h4 ng-bind="comment.mail"> </h4> 
+            <h4 ng-bind="comment.mail"> </h4>
             <p ng-bind="comment.comment"></p>
           </div>
           <form>
@@ -263,5 +263,5 @@
   <div id="footer">
     <a href="#">Contact</a> | <a href="#">About Us</a> | <a href="#/">Logout</a>
   </div>
-  
+
 </div>
