@@ -175,10 +175,17 @@
 
   UserFactory.getIssues(function (data, address){
     $scope.issues = data;
+<<<<<<< HEAD
     //console.log(data);
     $scope.address = address;
     addresses2 = $scope.address;
     //console.log("factory getIssues", addresses2[0].priority);
+=======
+    console.log(data);
+    $scope.address = address;
+    addresses2 = $scope.address;
+    console.log("factory getIssues", addresses2[0].priority);
+>>>>>>> 4959421bd80c95def65cb3e6f54e6c372ae1f769
   });
     $scope.login = function(){
       UserFactory.login($scope.logged_user, function(output){
@@ -192,9 +199,15 @@
     $scope.addIssue = function(id){
       console.log($scope.new_issue);
       $scope.new_issue.id = id;
+<<<<<<< HEAD
       UserFactory.addIssue($scope.new_issue,function(data){
         //UserFactory.getIssues(function(data){
           //console.log(data);
+=======
+      UserFactory.addIssue($scope.new_issue,function(){
+        UserFactory.getIssues(function(data){
+          console.log(data);
+>>>>>>> 4959421bd80c95def65cb3e6f54e6c372ae1f769
           $scope.issues = data;
           $scope.new_issue = {};
         //});
